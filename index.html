@@ -3,104 +3,96 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nathan – Hacker Dev Portfolio</title>
+  <title>Nathan – Hacker Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
-    /* === GLOBAL === */
-    body, html {
+    /* ===== GLOBAL ===== */
+    body {
       margin: 0;
-      padding: 0;
-      background: black;
+      background: radial-gradient(circle at top, #001100, #000);
       color: #00ff00;
-      font-family: 'Courier New', monospace;
-      height: 100%;
-      overflow: hidden;
+      font-family: 'Share Tech Mono', monospace;
+      overflow-x: hidden;
     }
-
-    #matrix-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
+    a {
+      color: #00ff00;
+      text-decoration: none;
     }
-
-    header {
+    h1, h2 {
       text-align: center;
-      padding: 30px 10px;
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      padding: 40px 20px;
+      text-align: center;
     }
     header img {
       border-radius: 50%;
       width: 120px;
       border: 2px solid #00ff00;
-    }
-    header h1 {
-      margin: 10px 0 5px;
-      font-size: 2.2em;
-      text-shadow: 0 0 10px #00ff00;
-    }
-    header p {
-      font-size: 1em;
-      color: #0f0;
+      margin-bottom: 10px;
     }
 
-    #terminal {
+    /* ===== SECTIONS ===== */
+    section {
       max-width: 900px;
       margin: 20px auto;
-      background: rgba(0, 0, 0, 0.9);
-      padding: 15px;
-      border: 1px solid #00ff00;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-left: 3px solid #00ff00;
       border-radius: 8px;
       box-shadow: 0 0 20px #00ff00;
-      height: 400px;
+    }
+
+    .btn-secret {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: #00ff00;
+      color: black;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5em;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ff00;
+    }
+
+    /* ===== TERMINAL ===== */
+    #console {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 300px;
+      background: black;
+      color: #0f0;
+      border-top: 2px solid #00ff00;
       overflow-y: auto;
+      padding: 10px;
+      box-shadow: 0 0 20px #00ff00;
+      z-index: 9999;
     }
-
-    #output {
+    #console pre {
+      margin: 0;
       white-space: pre-wrap;
-      word-wrap: break-word;
     }
-
-    #input-line {
-      display: flex;
-    }
-    #prompt {
-      margin-right: 5px;
-    }
-    #cmdline {
+    #console input {
+      width: 100%;
       background: black;
       border: none;
       color: #0f0;
-      width: 100%;
+      font-family: 'Share Tech Mono', monospace;
       font-size: 1em;
       outline: none;
-    }
-
-    a {
-      color: #00ff00;
-      text-decoration: underline;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-    }
-    input, textarea, button {
-      background: black;
-      color: #0f0;
-      border: 1px solid #00ff00;
-      margin: 5px 0;
-      padding: 8px;
-      font-family: 'Courier New', monospace;
-    }
-    button:hover {
-      background: #00ff00;
-      color: black;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
-
-<canvas id="matrix-bg"></canvas>
 
 <header>
   <img src="https://github.com/nxthxndev.png" alt="Nathan">
@@ -108,83 +100,79 @@
   <p>📧 <a href="mailto:nathanfrndz09@gmail.com">nathanfrndz09@gmail.com</a></p>
 </header>
 
-<div id="terminal">
-  <div id="output">Tapez <span style="color:#0ff;">help</span> pour voir les commandes disponibles.</div>
-  <div id="input-line">
-    <span id="prompt">></span>
-    <input id="cmdline" type="text" autofocus />
-  </div>
+<section>
+  <h2>👨‍💻 À propos</h2>
+  <p>
+    Passionné de développement, je maîtrise :<br>
+    - <b>C#</b> : Apps desktop, APIs REST<br>
+    - <b>C++</b> : Logiciels performants, systèmes<br>
+    - <b>Python</b> : Web, IA, data science
+  </p>
+</section>
+
+<section>
+  <h2>📦 Projets GitHub</h2>
+  <div id="projects">Chargement...</div>
+  <p><a href="https://github.com/nxthxndev?tab=repositories" target="_blank">Voir tous mes projets</a></p>
+</section>
+
+<section>
+  <h2>📬 Contact</h2>
+  <p>Envoyez-moi un mail : <a href="mailto:nathanfrndz09@gmail.com">nathanfrndz09@gmail.com</a></p>
+</section>
+
+<button class="btn-secret" onclick="toggleConsole()">👾</button>
+
+<div id="console">
+  <pre id="terminal-output">Console ouverte. Tapez 'help' pour la liste des commandes.</pre>
+  <input id="terminal-input" type="text" placeholder="Tapez une commande...">
 </div>
 
 <script>
-  // === MATRIX BACKGROUND ===
-  const canvas = document.getElementById("matrix-bg");
-  const ctx = canvas.getContext("2d");
-  canvas.height = window.innerHeight;
-  canvas.width = window.innerWidth;
-  let matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
-  matrix = matrix.split("");
-  let font_size = 16;
-  let columns = canvas.width / font_size;
-  let drops = [];
-  for (let x = 0; x < columns; x++) drops[x] = 1;
-  function draw() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#0f0";
-    ctx.font = font_size + "px Courier";
-    for (let i = 0; i < drops.length; i++) {
-      let text = matrix[Math.floor(Math.random() * matrix.length)];
-      ctx.fillText(text, i * font_size, drops[i] * font_size);
-      if (drops[i] * font_size > canvas.height && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    }
+  // === FETCH GITHUB PROJECTS ===
+  async function loadProjects() {
+    const res = await fetch('https://api.github.com/users/nxthxndev/repos?sort=updated&per_page=5');
+    const repos = await res.json();
+    const container = document.getElementById('projects');
+    container.innerHTML = repos.map(r => `
+      <p><b>${r.name}</b>: ${r.description || "Pas de description"}<br>
+      🔗 <a href="${r.html_url}" target="_blank">${r.html_url}</a></p>
+    `).join('');
   }
-  setInterval(draw, 35);
+  loadProjects();
 
-  // === TERMINAL LOGIC ===
-  const cmdline = document.getElementById('cmdline');
-  const output = document.getElementById('output');
+  // === SECRET CONSOLE ===
+  function toggleConsole() {
+    const consoleDiv = document.getElementById('console');
+    consoleDiv.style.display = (consoleDiv.style.display === 'block') ? 'none' : 'block';
+  }
 
-  cmdline.addEventListener('keydown', async (e) => {
+  const terminalInput = document.getElementById('terminal-input');
+  const terminalOutput = document.getElementById('terminal-output');
+  const commands = {
+    help: "Commandes disponibles:\nhelp - aide\nwhoami - info utilisateur\nls - liste fake fichiers\nclear - effacer\npwd - répertoire actuel\necho [texte] - répéter texte",
+    whoami: "nathan@portfolio:~$ Nathan (Développeur Fullstack)",
+    ls: "projects.txt\nabout_me.txt\ncontact.txt",
+    pwd: "/home/nathan/portfolio",
+  };
+
+  terminalInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      const cmd = cmdline.value.trim();
-      output.innerHTML += `\n> ${cmd}`;
-      cmdline.value = '';
-      if (cmd === 'help') {
-        output.innerHTML += "\nCommandes disponibles :\nabout - Voir bio\nprojects - Voir projets GitHub\ncontact - Me contacter\nclear - Nettoyer le terminal";
-      } else if (cmd === 'about') {
-        output.innerHTML += "\n👨‍💻 Nathan\nDéveloppeur passionné maîtrisant :\n- C# : Applications desktop, APIs REST\n- C++ : Logiciels performants, gestion mémoire\n- Python : Web, IA, data science\nCV : [Télécharger](https://github.com/nxthxndev)";
-      } else if (cmd === 'projects') {
-        output.innerHTML += "\n📦 Chargement des projets...";
-        const res = await fetch('https://api.github.com/users/nxthxndev/repos?sort=updated&per_page=5');
-        const repos = await res.json();
-        repos.forEach(r => {
-          output.innerHTML += `\n- ${r.name}\n  ${r.description || "Pas de description"}\n  🔗 ${r.html_url}`;
-        });
-      } else if (cmd === 'contact') {
-        output.innerHTML += `
-\n📬 Contactez-moi :
-<form onsubmit="sendEmail(event)">
-  <input type="text" id="name" placeholder="Nom" required />
-  <input type="email" id="email" placeholder="Email" required />
-  <textarea id="message" placeholder="Votre message..." required></textarea>
-  <button type="submit">Envoyer</button>
-</form>`;
-      } else if (cmd === 'clear') {
-        output.innerHTML = '';
+      const input = terminalInput.value.trim();
+      terminalOutput.textContent += `\n$ ${input}`;
+      if (input.startsWith('echo ')) {
+        terminalOutput.textContent += `\n${input.slice(5)}`;
+      } else if (commands[input]) {
+        terminalOutput.textContent += `\n${commands[input]}`;
+      } else if (input === 'clear') {
+        terminalOutput.textContent = '';
       } else {
-        output.innerHTML += `\nCommande inconnue: ${cmd}\nTapez 'help' pour la liste.`;
+        terminalOutput.textContent += `\nCommande inconnue: ${input}`;
       }
-      output.scrollTop = output.scrollHeight;
+      terminalInput.value = '';
+      terminalOutput.scrollTop = terminalOutput.scrollHeight;
     }
   });
-
-  // === CONTACT FORM SUBMISSION ===
-  function sendEmail(event) {
-    event.preventDefault();
-    alert("📨 Email envoyé ! (branchez EmailJS ici)");
-  }
 </script>
 
 </body>
