@@ -2,187 +2,190 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nathan – Hacker Dev Portfolio</title>
   <style>
-    body {
+    /* === GLOBAL === */
+    body, html {
       margin: 0;
-      font-family: "Courier New", monospace;
+      padding: 0;
       background: black;
       color: #00ff00;
-      overflow-x: hidden;
+      font-family: 'Courier New', monospace;
+      height: 100%;
+      overflow: hidden;
     }
+
+    #matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
     header {
       text-align: center;
-      padding: 40px 20px;
-      background: #000;
+      padding: 30px 10px;
     }
     header img {
       border-radius: 50%;
       width: 120px;
-      height: 120px;
       border: 2px solid #00ff00;
-      margin-bottom: 15px;
     }
     header h1 {
-      margin: 0;
+      margin: 10px 0 5px;
       font-size: 2.2em;
       text-shadow: 0 0 10px #00ff00;
-      animation: flicker 2s infinite;
     }
     header p {
-      margin: 8px 0 0;
-      font-size: 1.1em;
+      font-size: 1em;
       color: #0f0;
     }
-    section {
-      max-width: 800px;
-      margin: 30px auto;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 20px;
+
+    #terminal {
+      max-width: 900px;
+      margin: 20px auto;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px;
       border: 1px solid #00ff00;
       border-radius: 8px;
       box-shadow: 0 0 20px #00ff00;
+      height: 400px;
+      overflow-y: auto;
     }
-    h2 {
+
+    #output {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    #input-line {
+      display: flex;
+    }
+    #prompt {
+      margin-right: 5px;
+    }
+    #cmdline {
+      background: black;
+      border: none;
       color: #0f0;
-      border-bottom: 1px solid #0f0;
-      padding-bottom: 5px;
+      width: 100%;
+      font-size: 1em;
+      outline: none;
     }
-    .language, .project {
-      margin-bottom: 15px;
-    }
-    .project a {
-      color: #0f0;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .project a:hover {
+
+    a {
+      color: #00ff00;
       text-decoration: underline;
     }
-    .btn {
-      display: inline-block;
-      background: #00ff00;
-      color: #000;
-      padding: 8px 14px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: 10px;
+
+    form {
+      display: flex;
+      flex-direction: column;
     }
-    .btn:hover {
-      background: #0f0;
-      color: #000;
-    }
-    footer {
-      text-align: center;
-      padding: 15px;
-      color: #0f0;
-      font-size: 0.9em;
-    }
-    @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        opacity: 1;
-      }
-      20%, 24%, 55% {
-        opacity: 0.4;
-      }
-    }
-    #matrix-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
+    input, textarea, button {
       background: black;
-      overflow: hidden;
+      color: #0f0;
+      border: 1px solid #00ff00;
+      margin: 5px 0;
+      padding: 8px;
+      font-family: 'Courier New', monospace;
     }
-    canvas {
-      display: block;
+    button:hover {
+      background: #00ff00;
+      color: black;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <div id="matrix-bg"></div>
+<canvas id="matrix-bg"></canvas>
 
-  <header>
-    <img src="https://github.com/nxthxndev.png" alt="Photo de profil">
-    <h1>Nathan – Développeur C# · C++ · Python</h1>
-    <p>📧 <a href="mailto:nathanfrndz09@gmail.com" style="color:#00ff00;">nathanfrndz09@gmail.com</a></p>
-  </header>
+<header>
+  <img src="https://github.com/nxthxndev.png" alt="Nathan">
+  <h1>Nathan – Développeur Fullstack</h1>
+  <p>📧 <a href="mailto:nathanfrndz09@gmail.com">nathanfrndz09@gmail.com</a></p>
+</header>
 
-  <section id="skills">
-    <h2>⚡ Compétences</h2>
-    <div class="language">
-      <h3>C#</h3>
-      <ul>
-        <li>Applications desktop (WinForms, WPF)</li>
-        <li>API REST avec ASP.NET Core</li>
-        <li>Entity Framework, LINQ</li>
-      </ul>
-    </div>
-    <div class="language">
-      <h3>C++</h3>
-      <ul>
-        <li>STL, smart pointers, POO avancée</li>
-        <li>Optimisation mémoire et performance</li>
-      </ul>
-    </div>
-    <div class="language">
-      <h3>Python</h3>
-      <ul>
-        <li>Scripting, automatisation</li>
-        <li>Web (Flask, Django)</li>
-        <li>Analyse de données (Pandas, NumPy)</li>
-      </ul>
-    </div>
-  </section>
+<div id="terminal">
+  <div id="output">Tapez <span style="color:#0ff;">help</span> pour voir les commandes disponibles.</div>
+  <div id="input-line">
+    <span id="prompt">></span>
+    <input id="cmdline" type="text" autofocus />
+  </div>
+</div>
 
-  <section id="projects">
-    <h2>💻 Projets GitHub</h2>
-    <pre id="projects-list">Chargement des projets...</pre>
-    <a href="https://github.com/nxthxndev?tab=repositories" class="btn" target="_blank">🌐 Voir tout sur GitHub</a>
-  </section>
-
-  <footer>
-    &copy; 2025 Nathan – All rights reserved
-  </footer>
-
-  <script>
-    const githubUsername = "nxthxndev";
-    async function fetchGitHubProjects() {
-      const res = await fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=10`);
-      const repos = await res.json();
-      let output = "";
-      repos.forEach(repo => {
-        output += `> ${repo.name}\n    ${repo.description || "Pas de description."}\n    🔗 ${repo.html_url}\n\n`;
-      });
-      document.getElementById('projects-list').textContent = output || "> Aucun projet trouvé.";
+<script>
+  // === MATRIX BACKGROUND ===
+  const canvas = document.getElementById("matrix-bg");
+  const ctx = canvas.getContext("2d");
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  let matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+  matrix = matrix.split("");
+  let font_size = 16;
+  let columns = canvas.width / font_size;
+  let drops = [];
+  for (let x = 0; x < columns; x++) drops[x] = 1;
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#0f0";
+    ctx.font = font_size + "px Courier";
+    for (let i = 0; i < drops.length; i++) {
+      let text = matrix[Math.floor(Math.random() * matrix.length)];
+      ctx.fillText(text, i * font_size, drops[i] * font_size);
+      if (drops[i] * font_size > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
     }
-    fetchGitHubProjects();
+  }
+  setInterval(draw, 35);
 
-    // MATRIX BACKGROUND
-    const canvas = document.createElement('canvas');
-    document.getElementById('matrix-bg').appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    let letters = Array(256).join("0").split("");
-    const draw = () => {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#0f0";
-      ctx.font = "16pt Courier";
-      letters.map((y, index) => {
-        const text = String.fromCharCode(3e4 + Math.random() * 33);
-        const x = index * 16;
-        ctx.fillText(text, x, y);
-        letters[index] = (y > canvas.height + Math.random() * 1e4) ? 0 : y + 20;
-      });
+  // === TERMINAL LOGIC ===
+  const cmdline = document.getElementById('cmdline');
+  const output = document.getElementById('output');
+
+  cmdline.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      const cmd = cmdline.value.trim();
+      output.innerHTML += `\n> ${cmd}`;
+      cmdline.value = '';
+      if (cmd === 'help') {
+        output.innerHTML += "\nCommandes disponibles :\nabout - Voir bio\nprojects - Voir projets GitHub\ncontact - Me contacter\nclear - Nettoyer le terminal";
+      } else if (cmd === 'about') {
+        output.innerHTML += "\n👨‍💻 Nathan\nDéveloppeur passionné maîtrisant :\n- C# : Applications desktop, APIs REST\n- C++ : Logiciels performants, gestion mémoire\n- Python : Web, IA, data science\nCV : [Télécharger](https://github.com/nxthxndev)";
+      } else if (cmd === 'projects') {
+        output.innerHTML += "\n📦 Chargement des projets...";
+        const res = await fetch('https://api.github.com/users/nxthxndev/repos?sort=updated&per_page=5');
+        const repos = await res.json();
+        repos.forEach(r => {
+          output.innerHTML += `\n- ${r.name}\n  ${r.description || "Pas de description"}\n  🔗 ${r.html_url}`;
+        });
+      } else if (cmd === 'contact') {
+        output.innerHTML += `
+\n📬 Contactez-moi :
+<form onsubmit="sendEmail(event)">
+  <input type="text" id="name" placeholder="Nom" required />
+  <input type="email" id="email" placeholder="Email" required />
+  <textarea id="message" placeholder="Votre message..." required></textarea>
+  <button type="submit">Envoyer</button>
+</form>`;
+      } else if (cmd === 'clear') {
+        output.innerHTML = '';
+      } else {
+        output.innerHTML += `\nCommande inconnue: ${cmd}\nTapez 'help' pour la liste.`;
+      }
+      output.scrollTop = output.scrollHeight;
     }
-    setInterval(draw, 50);
-  </script>
+  });
+
+  // === CONTACT FORM SUBMISSION ===
+  function sendEmail(event) {
+    event.preventDefault();
+    alert("📨 Email envoyé ! (branchez EmailJS ici)");
+  }
+</script>
 
 </body>
 </html>
