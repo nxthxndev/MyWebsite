@@ -3,163 +3,185 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nathan – Développeur C# · C++ · Python</title>
+  <title>Nathan – Hacker Dev Portfolio</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f0f2f5;
-      color: #333;
+      font-family: "Courier New", monospace;
+      background: black;
+      color: #00ff00;
+      overflow-x: hidden;
     }
     header {
-      background: #007acc;
-      color: #fff;
-      padding: 20px;
       text-align: center;
+      padding: 40px 20px;
+      background: #000;
     }
-    header a {
-      color: #ffeeba;
-      text-decoration: none;
-      font-weight: bold;
+    header img {
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      border: 2px solid #00ff00;
+      margin-bottom: 15px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2em;
+      text-shadow: 0 0 10px #00ff00;
+      animation: flicker 2s infinite;
+    }
+    header p {
+      margin: 8px 0 0;
+      font-size: 1.1em;
+      color: #0f0;
     }
     section {
-      max-width: 900px;
-      margin: 20px auto;
-      background: #fff;
+      max-width: 800px;
+      margin: 30px auto;
+      background: rgba(0, 0, 0, 0.8);
       padding: 20px;
+      border: 1px solid #00ff00;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 0 20px #00ff00;
     }
     h2 {
-      border-bottom: 3px solid #007acc;
-      padding-bottom: 8px;
+      color: #0f0;
+      border-bottom: 1px solid #0f0;
+      padding-bottom: 5px;
     }
-    .language {
-      margin-bottom: 16px;
-    }
-    .language h3 {
-      margin-bottom: 6px;
-      color: #007acc;
-    }
-    .project {
-      margin-bottom: 12px;
+    .language, .project {
+      margin-bottom: 15px;
     }
     .project a {
-      color: #007acc;
+      color: #0f0;
       text-decoration: none;
       font-weight: bold;
     }
-    .project p {
-      margin: 4px 0 0;
-      color: #555;
+    .project a:hover {
+      text-decoration: underline;
     }
     .btn {
       display: inline-block;
-      margin-top: 10px;
-      background: #28a745;
-      color: white;
+      background: #00ff00;
+      color: #000;
       padding: 8px 14px;
       border-radius: 4px;
       text-decoration: none;
+      font-weight: bold;
+      margin-top: 10px;
     }
     .btn:hover {
-      background: #218838;
+      background: #0f0;
+      color: #000;
     }
     footer {
       text-align: center;
-      padding: 12px;
-      background: #e9ecef;
-      margin-top: 30px;
+      padding: 15px;
+      color: #0f0;
       font-size: 0.9em;
     }
-    .loading {
-      color: #555;
-      font-style: italic;
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.4;
+      }
+    }
+    #matrix-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: black;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
     }
   </style>
 </head>
 <body>
 
+  <div id="matrix-bg"></div>
+
   <header>
+    <img src="https://github.com/nxthxndev.png" alt="Photo de profil">
     <h1>Nathan – Développeur C# · C++ · Python</h1>
-    <p>Contact : <a href="mailto:nathanfrndz09@gmail.com">nathanfrndz09@gmail.com</a></p>
+    <p>📧 <a href="mailto:nathanfrndz09@gmail.com" style="color:#00ff00;">nathanfrndz09@gmail.com</a></p>
   </header>
 
   <section id="skills">
-    <h2>🎯 Compétences</h2>
+    <h2>⚡ Compétences</h2>
     <div class="language">
       <h3>C#</h3>
       <ul>
         <li>Applications desktop (WinForms, WPF)</li>
         <li>API REST avec ASP.NET Core</li>
-        <li>LINQ, Entity Framework, design patterns</li>
+        <li>Entity Framework, LINQ</li>
       </ul>
     </div>
     <div class="language">
       <h3>C++</h3>
       <ul>
-        <li>Programmation orientée objet (héritage, polymorphisme)</li>
-        <li>STL, smart pointers</li>
-        <li>Gestion mémoire manuelle</li>
+        <li>STL, smart pointers, POO avancée</li>
+        <li>Optimisation mémoire et performance</li>
       </ul>
     </div>
     <div class="language">
       <h3>Python</h3>
       <ul>
-        <li>Scripting & automatisation</li>
-        <li>Développement web (Flask, Django)</li>
+        <li>Scripting, automatisation</li>
+        <li>Web (Flask, Django)</li>
         <li>Analyse de données (Pandas, NumPy)</li>
       </ul>
     </div>
   </section>
 
   <section id="projects">
-    <h2>💻 Mes projets GitHub</h2>
-    <div id="projects-list">
-      <p class="loading">Chargement des projets GitHub…</p>
-    </div>
-    <a href="https://github.com/nxthxndev?tab=repositories" class="btn" target="_blank">Voir tous mes projets</a>
+    <h2>💻 Projets GitHub</h2>
+    <pre id="projects-list">Chargement des projets...</pre>
+    <a href="https://github.com/nxthxndev?tab=repositories" class="btn" target="_blank">🌐 Voir tout sur GitHub</a>
   </section>
 
   <footer>
-    &copy; 2025 Nathan – Tous droits réservés
+    &copy; 2025 Nathan – All rights reserved
   </footer>
 
   <script>
     const githubUsername = "nxthxndev";
-
     async function fetchGitHubProjects() {
-      const url = `https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=10`;
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('Erreur HTTP ' + res.status);
-        const repos = await res.json();
-        displayProjects(repos);
-      } catch (err) {
-        document.getElementById('projects-list').innerHTML =
-          `<p class="loading">Impossible de charger les projets : ${err.message}</p>`;
-      }
-    }
-
-    function displayProjects(repos) {
-      const container = document.getElementById('projects-list');
-      container.innerHTML = "";
-      if (repos.length === 0) {
-        container.innerHTML = "<p class='loading'>Aucun projet trouvé.</p>";
-        return;
-      }
+      const res = await fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=10`);
+      const repos = await res.json();
+      let output = "";
       repos.forEach(repo => {
-        const div = document.createElement('div');
-        div.className = 'project';
-        div.innerHTML = `
-          <a href="${repo.html_url}" target="_blank">${repo.name}</a>
-          <p>${repo.description || "Pas de description."}</p>
-        `;
-        container.appendChild(div);
+        output += `> ${repo.name}\n    ${repo.description || "Pas de description."}\n    🔗 ${repo.html_url}\n\n`;
+      });
+      document.getElementById('projects-list').textContent = output || "> Aucun projet trouvé.";
+    }
+    fetchGitHubProjects();
+
+    // MATRIX BACKGROUND
+    const canvas = document.createElement('canvas');
+    document.getElementById('matrix-bg').appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let letters = Array(256).join("0").split("");
+    const draw = () => {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0f0";
+      ctx.font = "16pt Courier";
+      letters.map((y, index) => {
+        const text = String.fromCharCode(3e4 + Math.random() * 33);
+        const x = index * 16;
+        ctx.fillText(text, x, y);
+        letters[index] = (y > canvas.height + Math.random() * 1e4) ? 0 : y + 20;
       });
     }
-
-    fetchGitHubProjects();
+    setInterval(draw, 50);
   </script>
 
 </body>
