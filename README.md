@@ -2,7 +2,7 @@
 
 
 
-https://nxthxndev.github.io/MyWebsite/
+https://nxthxndev.github.io/test/
 
 # info pour moi 
 
