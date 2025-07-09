@@ -3,114 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Media Extractor (Frontend)</title>
+  <title>🎧 Testeur de fréquence</title>
   <style>
     body {
       background: radial-gradient(circle at center, #1a0000, #000);
       color: #ff0000;
       font-family: monospace;
       text-align: center;
+      padding: 50px;
     }
     h1 {
-      margin-top: 40px;
       text-shadow: 0 0 15px #ff0000;
+      font-size: 3em;
     }
-    input, button {
-      padding: 10px;
-      margin: 10px;
+    #frequencyValue {
+      font-size: 2em;
+      margin: 20px 0;
+    }
+    input[type="range"] {
+      width: 80%;
+      margin: 20px 0;
+      accent-color: #ff0000;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 1.2em;
       border: 2px solid #ff0000;
       background: #000;
       color: #ff0000;
-    }
-    #results {
+      cursor: pointer;
       margin-top: 20px;
-      text-align: left;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      background: rgba(50, 0, 0, 0.7);
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #ff0000;
     }
-    img, video {
-      max-width: 100%;
-      margin: 10px 0;
-      border: 1px solid #ff0000;
-    }
-    .download-btn {
-      display: inline-block;
-      margin: 5px;
-      padding: 5px 10px;
+    button:hover {
       background: #ff0000;
       color: #000;
-      border: none;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>🕷️ Media Extractor (Frontend)</h1>
-  <p>Entrez une URL pour extraire toutes les images et vidéos :</p>
-  <input type="text" id="urlInput" placeholder="https://example.com" />
-  <button onclick="analyze()">Analyser</button>
+  <h1>🕷️ Testeur de fréquence</h1>
+  <p>🎚️ Déplace le slider pour choisir une fréquence (20Hz à 20kHz)</p>
 
-  <div id="results"></div>
+  <div id="frequencyValue">🔊 440 Hz</div>
+  <input type="range" id="frequencySlider" min="20" max="20000" value="440" step="1" oninput="updateFrequency()">
+  <br>
+  <button onclick="toggleSound()">▶️ Lancer / Arrêter</button>
 
   <script>
-    async function analyze() {
-      const url = document.getElementById('urlInput').value;
-      const results = document.getElementById('results');
-      results.innerHTML = "<p>🔍 Analyse en cours...</p>";
+    let audioCtx = null;
+    let oscillator = null;
+    let isPlaying = false;
 
-      try {
-        // Utiliser un proxy CORS
-        const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
-        const response = await fetch(proxyUrl);
-        const htmlText = await response.text();
+    function updateFrequency() {
+      const freq = document.getElementById('frequencySlider').value;
+      document.getElementById('frequencyValue').innerText = `🔊 ${freq} Hz`;
+      if (oscillator) {
+        oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      }
+    }
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
-
-        const images = Array.from(doc.querySelectorAll('img'))
-                            .map(img => img.src || img.getAttribute('src'));
-        const videos = Array.from(doc.querySelectorAll('video source'))
-                            .map(video => video.src || video.getAttribute('src'));
-
-        if (images.length === 0 && videos.length === 0) {
-          results.innerHTML = "<p>😕 Aucun média trouvé.</p>";
-          return;
-        }
-
-        let html = "";
-        if (images.length) {
-          html += "<h2>🖼️ Images</h2>";
-          images.forEach(src => {
-            html += `
-              <div>
-                <img src="${src}" alt="">
-                <a href="${src}" download class="download-btn">📥 Télécharger</a>
-              </div>`;
-          });
-        }
-
-        if (videos.length) {
-          html += "<h2>🎥 Vidéos</h2>";
-          videos.forEach(src => {
-            html += `
-              <div>
-                <video controls>
-                  <source src="${src}">
-                </video>
-                <a href="${src}" download class="download-btn">📥 Télécharger</a>
-              </div>`;
-          });
-        }
-
-        results.innerHTML = html;
-
-      } catch (err) {
-        results.innerHTML = `<p style="color:red;">❌ Erreur : ${err.message}</p>`;
+    function toggleSound() {
+      if (!isPlaying) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine'; // Type d'onde : sine, square, triangle, sawtooth
+        oscillator.frequency.setValueAtTime(document.getElementById('frequencySlider').value, audioCtx.currentTime);
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        isPlaying = true;
+      } else {
+        oscillator.stop();
+        oscillator.disconnect();
+        oscillator = null;
+        isPlaying = false;
       }
     }
   </script>
