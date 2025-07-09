@@ -2,82 +2,275 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎧 Testeur de fréquence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>nxthxndev </title>
+
+  <!-- Font Awesome (via CDN sécurisé) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+
   <style>
+    :root {
+      --bg: #0d1117;
+      --bg-light: #161b22;
+      --text: #c9d1d9;
+      --subtle: #8b949e;
+      --accent: #58a6ff;
+      --border: #30363d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background: radial-gradient(circle at center, #1a0000, #000);
-      color: #ff0000;
-      font-family: monospace;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
       text-align: center;
-      padding: 50px;
+      padding: 3rem 1rem 2rem;
+      animation: fadeIn 1.2s ease-in-out;
     }
-    h1 {
-      text-shadow: 0 0 15px #ff0000;
-      font-size: 3em;
+
+    header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
     }
-    #frequencyValue {
-      font-size: 2em;
-      margin: 20px 0;
+
+    header h1 {
+      margin-top: 1rem;
+      font-size: 2.4rem;
     }
-    input[type="range"] {
-      width: 80%;
-      margin: 20px 0;
-      accent-color: #ff0000;
+
+    header p {
+      color: var(--subtle);
+      font-size: 1.2rem;
     }
-    button {
-      padding: 15px 30px;
-      font-size: 1.2em;
-      border: 2px solid #ff0000;
-      background: #000;
-      color: #ff0000;
-      cursor: pointer;
-      margin-top: 20px;
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem 1rem;
     }
-    button:hover {
-      background: #ff0000;
-      color: #000;
+
+    h2 {
+      font-size: 1.6rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 0.75rem;
+      margin-bottom: 1.5rem;
+      animation: slideLeft 0.8s ease forwards;
+    }
+
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .skill-card {
+      background: var(--bg-light);
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      transition: transform 0.3s;
+      animation: fadeUp 0.6s forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .skill-card:nth-child(1) { animation-delay: 0.2s; }
+    .skill-card:nth-child(2) { animation-delay: 0.4s; }
+    .skill-card:nth-child(3) { animation-delay: 0.6s; }
+
+    .skill-title {
+      font-family: 'Fira Code', monospace;
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-desc {
+      font-size: 0.95rem;
+      color: var(--subtle);
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project {
+      background: var(--bg-light);
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .project h3 {
+      margin: 0;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+
+    .project p {
+      color: var(--subtle);
+      font-size: 0.95rem;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .project a {
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .socials a {
+      color: var(--accent);
+      font-size: 1.6rem;
+      transition: color 0.3s;
+    }
+
+    .socials a:hover {
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--subtle);
+      font-size: 0.9rem;
+      margin-top: 4rem;
+      padding: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
   </style>
 </head>
 <body>
-  <h1>🕷️ Testeur de fréquence</h1>
-  <p>🎚️ Déplace le slider pour choisir une fréquence (20Hz à 20kHz)</p>
 
-  <div id="frequencyValue">🔊 440 Hz</div>
-  <input type="range" id="frequencySlider" min="20" max="20000" value="440" step="1" oninput="updateFrequency()">
-  <br>
-  <button onclick="toggleSound()">▶️ Lancer / Arrêter</button>
+<header>
+  <img src="https://github.com/nxthxndev.png" alt="Avatar GitHub" />
+  <h1>nxthxndev</h1>
+  <p>Développeur C# • C++ • Python</p>
+</header>
 
-  <script>
-    let audioCtx = null;
-    let oscillator = null;
-    let isPlaying = false;
+<main>
+  <section>
+    <h2>💻 Mes langages</h2>
+    <div class="skills">
+      <div class="skill-card">
+        <div class="skill-title">C#</div>
+        <div class="skill-desc">Idéal pour les apps desktop, les jeux Unity et les APIs performantes.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-title">C++</div>
+        <div class="skill-desc">Langage bas niveau, ultra performant. Utilisé en moteur graphique, IA, systèmes...</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-title">Python</div>
+        <div class="skill-desc">Scripting, data science, IA, bots... Python est rapide et puissant pour automatiser.</div>
+      </div>
+    </div>
+  </section>
 
-    function updateFrequency() {
-      const freq = document.getElementById('frequencySlider').value;
-      document.getElementById('frequencyValue').innerText = `🔊 ${freq} Hz`;
-      if (oscillator) {
-        oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  <section>
+    <h2>📂 Projets GitHub</h2>
+    <div id="projects-container" class="projects">
+      <p>Chargement des projets...</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="socials">
+      <a href="https://tiktok.com/@.0qzz" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+      <a href="https://instagram.com/nxth9n" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://github.com/nxthxndev" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 nxthxndev – Pas de Droits Réservés Lol
+</footer>
+
+<script>
+  const username = "nxthxndev";
+  const container = document.getElementById("projects-container");
+
+  fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
+    .then(res => res.json())
+    .then(repos => {
+      container.innerHTML = "";
+      repos.forEach(repo => {
+        if (repo.fork) return;
+
+        const card = document.createElement("div");
+        card.className = "project";
+
+        card.innerHTML = `
+          <h3>${repo.name}</h3>
+          <p>${repo.description ?? "Aucune description."}</p>
+          <a href="${repo.html_url}" target="_blank">Voir sur GitHub →</a>
+        `;
+
+        container.appendChild(card);
+      });
+
+      if (container.innerHTML.trim() === "") {
+        container.innerHTML = "<p>Aucun projet trouvé.</p>";
       }
-    }
+    })
+    .catch(err => {
+      console.error(err);
+      container.innerHTML = "<p>Impossible de charger les projets.</p>";
+    });
+</script>
 
-    function toggleSound() {
-      if (!isPlaying) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        oscillator = audioCtx.createOscillator();
-        oscillator.type = 'sine'; // Type d'onde : sine, square, triangle, sawtooth
-        oscillator.frequency.setValueAtTime(document.getElementById('frequencySlider').value, audioCtx.currentTime);
-        oscillator.connect(audioCtx.destination);
-        oscillator.start();
-        isPlaying = true;
-      } else {
-        oscillator.stop();
-        oscillator.disconnect();
-        oscillator = null;
-        isPlaying = false;
-      }
-    }
-  </script>
 </body>
 </html>
